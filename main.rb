@@ -3,6 +3,7 @@ class Board
 
   def initialize
     @cells = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    # @cells = %w[x o]
   end
 
   def display_board
@@ -40,11 +41,18 @@ class Game
     @player2 = User.new('Player Two', 'Black')
     @current_player = nil
   end
+
+  def play
+    # until game_over?
+  end
+
+  def game_over?
+    return true if @board.cells.all? { |i| i.is_a?(String) }
+
+    false
+  end
 end
 
-# board = Board.new
-# puts board.display_board
+game = Game.new
 
-# player1 = User.new('Player One', 'X')
-
-# p player1
+p game.game_over?
