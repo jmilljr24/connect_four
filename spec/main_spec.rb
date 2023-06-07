@@ -9,7 +9,7 @@ describe Game do
       end
 
       it 'returns true if the board is full' do
-        game.board.instance_variable_set(:@cells, %w[x o])
+        game.board.instance_variable_set(:@grid, Array.new(6) { Array.new(7) { 'x' } })
         expect(game.game_over?).to eq true
       end
     end

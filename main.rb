@@ -44,6 +44,7 @@ class User
 end
 
 class Game
+  include Miscellaneous
   attr_reader :board, :player1, :player2, :current_player
 
   def initialize
@@ -58,12 +59,12 @@ class Game
   end
 
   def game_over?
-    return true if @board.cells.all? { |i| i.is_a?(String) }
+    return false if @board.grid[0].include?(empty_circle)
 
-    false
+    true
   end
 end
 
-# game = Game.new
+game = Game.new
 
-# game.game_over?
+game.game_over?
