@@ -1,25 +1,36 @@
+module Miscellaneous
+  def yellow_circle
+    "\e[33m\u25cf\e[0m"
+  end
+
+  def blue_circle
+    "\e[34m\u25cf\e[0m"
+  end
+
+  def empty_circle
+    "\u25cb"
+  end
+end
+
 class Board
-  attr_accessor :cells
+  include Miscellaneous
+  attr_accessor :grid
 
   def initialize
-    @cells = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-    # @cells = %w[x o]
+    @grid = Array.new(6) { Array.new(7) { empty_circle } }
   end
 
   def display_board
-    puts <<-HEREDOC
-
-          #{cells[0]} | #{cells[1]} | #{cells[2]} | #{cells[3]}
-         ----+----+----
-          #{cells[4]} | #{cells[5]} | #{cells[6]} | #{cells[7]}
-         ----+----+----
-          #{cells[8]} | #{cells[9]} | #{cells[10]} | #{cells[11]}
-          ----+----+----
-          #{cells[12]} | #{cells[13]} | #{cells[14]} | #{cells[15]}
-
-    HEREDOC
+    @grid.each do |row|
+      puts row.join(' ')
+    end
+    puts (1..7).to_a.join(' ')
   end
 end
+
+board = Board.new
+
+board.display_board
 
 class User
   attr_reader :name, :symbol
@@ -53,6 +64,6 @@ class Game
   end
 end
 
-game = Game.new
+# game = Game.new
 
-p game.game_over?
+# game.game_over?
