@@ -54,10 +54,10 @@ class Board
   end
 
   def vertical_check
-    grid[2][0] = 'x'
-    grid[3][0] = 'x'
-    grid[4][0] = 'x'
-    grid[5][0] = 'x'
+    # grid[2][0] = 'x'
+    # grid[3][0] = 'x'
+    # grid[4][0] = 'x'
+    # grid[5][0] = 'x'
 
     r = 0
     c = 0

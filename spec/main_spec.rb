@@ -12,6 +12,11 @@ describe Board do
         board.instance_variable_set(:@grid, Array.new(6) { Array.new(7) { 'x' } })
         expect(board.game_over?).to eq true
       end
+
+      it 'returns true if there is a winner' do
+        board.instance_variable_set(:@winner, 'x')
+        expect(board.game_over?).to eq true
+      end
     end
 
     describe '#horizontal_check' do
