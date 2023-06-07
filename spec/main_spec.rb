@@ -25,12 +25,47 @@ describe Board do
         grid[0][4] = 'x'
       end
       it 'returns true if a row has four pieces in a row' do
-        expect(horizontal_check.horizontal_check).to eq true
+        expect(horizontal_check.horizontal_check).to eq('x')
       end
 
       it 'returns false if there is not four pieces in a row in any row' do
         grid[0][3] = 'y'
-        expect(horizontal_check.horizontal_check).to eq false
+        expect(horizontal_check.horizontal_check).to be_nil
+      end
+    end
+    describe '#vertical_check' do
+      subject(:vertical_check) { described_class.new }
+      let(:grid) { vertical_check.instance_variable_get(:@grid) }
+
+      it 'returns the winner if four in the first column' do
+        grid[0][0] = 'x'
+        grid[1][0] = 'x'
+        grid[2][0] = 'x'
+        grid[3][0] = 'x'
+        expect(vertical_check.vertical_check).to eq('x')
+      end
+
+      it 'returns the winner if four in the second column' do
+        grid[0][1] = 'x'
+        grid[1][1] = 'x'
+        grid[2][1] = 'x'
+        grid[3][1] = 'x'
+        expect(vertical_check.vertical_check).to eq('x')
+      end
+
+      it 'returns the winner if four in the first column with last row' do
+        grid[2][0] = 'x'
+        grid[3][0] = 'x'
+        grid[4][0] = 'x'
+        grid[5][0] = 'x'
+        expect(vertical_check.vertical_check).to eq('x')
+      end
+      it 'returns the winner if four in the last column with last row' do
+        grid[2][0] = 'x'
+        grid[3][0] = 'x'
+        grid[4][0] = 'x'
+        grid[5][0] = 'x'
+        expect(vertical_check.vertical_check).to eq('x')
       end
     end
   end

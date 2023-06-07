@@ -45,14 +45,45 @@ class Board
         c += 1
       end
       if p1 == 4
-        @winner = 'Player One'
+        @winner = 'x'
       elsif p2 == 4
-        @winner = 'Player Two'
+        @winner = 'x'
       end
     end
-    return true unless @winner.nil?
+    @winner
+  end
 
-    false
+  def vertical_check
+    grid[2][0] = 'x'
+    grid[3][0] = 'x'
+    grid[4][0] = 'x'
+    grid[5][0] = 'x'
+
+    r = 0
+    c = 0
+    count = 0
+
+    7.times do
+      current = @grid[r][c]
+      6.times do
+        current = @grid[r][c]
+        if current == empty_circle
+          r += 1
+        elsif current == @grid[r + 1] [c]
+          r += 1
+          count += 1
+          return @winner = current if count == 3
+        else
+          count = 0
+          current = @grid[r][c]
+          r += 1
+        end
+      end
+      return unless @winner.nil?
+
+      c += 1
+      r = 0
+    end
   end
 
   def game_over?
@@ -65,7 +96,7 @@ end
 
 board = Board.new
 
-board.horizontal_check
+board.vertical_check
 
 class User
   attr_reader :name, :symbol
