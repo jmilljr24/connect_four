@@ -85,7 +85,8 @@ class Board
       r = 0
     end
   end
-
+  def grid_check(player, r, c)
+    
   def diag_r(player, r, c, count = 0)
     return if count > 3
 
@@ -94,7 +95,7 @@ class Board
     count += 1
     return @winner = player if count == 3
 
-    diag_r(player, r, c, count)
+    diag_r(player, r + 1, c + 1, count)
   end
 
   def game_over?
@@ -107,7 +108,7 @@ end
 
 # board = Board.new
 
-# board.diagonal_right
+# board.diag_r('x', 2, 2)
 
 class User
   attr_reader :name, :symbol

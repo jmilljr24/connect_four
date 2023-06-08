@@ -113,9 +113,22 @@ describe Board do
         grid[4][4] = 'x'
         grid[5][5] = 'x'
         player = 'x'
-        r = 1
-        c = 1
+        r = 2
+        c = 2
+        player = 'x'
+        r = 2
+        c = 2
         expect(diag_r.diag_r(player, r, c)).to eq('x')
+      end
+      it 'returns nil if only three in a row' do
+        grid[2][2] = 'x'
+        grid[3][3] = 'x'
+        grid[4][4] = 'x'
+        grid[5][5] = 'y'
+        player = 'x'
+        r = 2
+        c = 2
+        expect(diag_r.diag_r(player, r, c)).to be_nil
       end
     end
   end
