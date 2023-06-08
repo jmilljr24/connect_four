@@ -73,5 +73,50 @@ describe Board do
         expect(vertical_check.vertical_check).to eq('x')
       end
     end
+
+    describe '#diagonal_right' do
+      subject(:diag_right) { described_class.new }
+      let(:grid) { diag_right.instance_variable_get(:@grid) }
+
+      xit 'returns the winner if four in a row diagonal down right' do
+        grid[0][0] = 'x'
+        grid[1][1] = 'x'
+        grid[2][2] = 'x'
+        grid[3][3] = 'x'
+        expect(diag_right.diagonal_right).to eq('x')
+      end
+
+      xit 'returns the winner if four in a row diagonal down right in middle of board' do
+        grid[2][2] = 'x'
+        grid[3][3] = 'x'
+        grid[4][4] = 'x'
+        grid[5][5] = 'x'
+        expect(diag_right.diagonal_right).to eq('x')
+      end
+    end
+
+    describe 'diag_r' do
+      subject(:diag_r) { described_class.new }
+      let(:count) { diag_r.instance_variable_get(:count) }
+      let(:grid) { diag_r.instance_variable_get(:@grid) }
+
+      it 'returns if count is greater than 3' do
+        player = 'x'
+        r = 0
+        c = 0
+        count = 4
+        expect(diag_r.diag_r(player, r, c, count)).to be_nil
+      end
+      it 'returns winner if four in a row' do
+        grid[2][2] = 'x'
+        grid[3][3] = 'x'
+        grid[4][4] = 'x'
+        grid[5][5] = 'x'
+        player = 'x'
+        r = 1
+        c = 1
+        expect(diag_r.diag_r(player, r, c)).to eq('x')
+      end
+    end
   end
 end

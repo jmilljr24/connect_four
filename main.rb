@@ -86,6 +86,17 @@ class Board
     end
   end
 
+  def diag_r(player, r, c, count = 0)
+    return if count > 3
+
+    return unless grid[r + 1][c + 1] == player
+
+    count += 1
+    return @winner = player if count == 3
+
+    diag_r(player, r, c, count)
+  end
+
   def game_over?
     return true unless @winner.nil?
     return true unless @grid[0].include?(empty_circle)
@@ -94,9 +105,9 @@ class Board
   end
 end
 
-board = Board.new
+# board = Board.new
 
-board.vertical_check
+# board.diagonal_right
 
 class User
   attr_reader :name, :symbol
