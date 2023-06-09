@@ -117,31 +117,30 @@ describe Board do
         symbol = 'x'
         expect(diag.diagonal_right(row, col, symbol)).to be false
       end
+    end
+    describe '#diagonal_left' do
+      subject(:diag) { described_class.new }
+      let(:grid) { diag.instance_variable_get(:@grid) }
 
-      describe '#diagonal_left' do
-        subject(:diag) { described_class.new }
-        let(:grid) { diag.instance_variable_get(:@grid) }
+      before do
+        grid[0][4] = 'x'
+        grid[1][3] = 'x'
+        grid[2][2] = 'x'
+        grid[3][1] = 'x'
+      end
+      it ' returns the true if your in a row diagonal right' do
+        row = 0
+        col = 4
+        symbol = 'x'
+        expect(diag.diagonal_left(row, col, symbol)).to be true
+      end
 
-        before do
-          grid[0][4] = 'x'
-          grid[1][3] = 'x'
-          grid[2][2] = 'x'
-          grid[3][1] = 'x'
-        end
-        it ' returns the true if your in a row diagonal right' do
-          row = 0
-          col = 4
-          symbol = 'x'
-          expect(diag.diagonal_left(row, col, symbol)).to be true
-        end
-
-        it ' returns the true if your in a row diagonal right' do
-          grid[2][2] = 'y'
-          row = 0
-          col = 4
-          symbol = 'x'
-          expect(diag.diagonal_left(row, col, symbol)).to be false
-        end
+      it ' returns the true if your in a row diagonal right' do
+        grid[2][2] = 'y'
+        row = 0
+        col = 4
+        symbol = 'x'
+        expect(diag.diagonal_left(row, col, symbol)).to be false
       end
     end
   end

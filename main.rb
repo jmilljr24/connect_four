@@ -44,6 +44,13 @@ class Board
     @grid[row][col] == symbol && @grid[row + 1][col - 1] == symbol && @grid[row + 2][col - 2] == symbol && @grid[row + 3][col - 3] == symbol
   end
 
+  def connect_four(row, col, symbol)
+    horizontal_check(row, col,
+                     symbol) || vertical_check(row, col,
+                                               symbol) || diagonal_right(row, col,
+                                                                         symbol) || diagonal_left(row, col, symbol)
+  end
+
   def game_over?
     return true unless @winner.nil?
     return true unless @grid[0].include?(empty_circle)
@@ -82,6 +89,6 @@ end
 # game = Game.new
 
 # game.win_vertical?
-# board = Board.new
+board = Board.new
 
-# p board.h_check(0, 0, 'x')
+p board.check_four
