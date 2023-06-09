@@ -24,18 +24,24 @@ describe Board do
       let(:grid) { horizontal_check.instance_variable_get(:@grid) }
 
       before do
+        grid[0][0] = 'x'
         grid[0][1] = 'x'
         grid[0][2] = 'x'
         grid[0][3] = 'x'
-        grid[0][4] = 'x'
       end
       it 'returns true if a row has four pieces in a row' do
-        expect(horizontal_check.horizontal_check).to eq('x')
+        row = 0
+        col = 0
+        symbol = 'x'
+        expect(horizontal_check.horizontal_check(row, col, symbol)).to be true
       end
 
-      it 'returns false if there is not four pieces in a row in any row' do
+      it 'returns nil if there is not four pieces in a row in any row' do
+        row = 0
+        col = 0
+        symbol = 'x'
         grid[0][3] = 'y'
-        expect(horizontal_check.horizontal_check).to be_nil
+        expect(horizontal_check.horizontal_check(row, col, symbol)).to be false
       end
     end
     describe '#vertical_check' do

@@ -28,30 +28,38 @@ class Board
     puts (1..7).to_a.join(' ')
   end
 
-  def horizontal_check
-    @grid.each do |arr|
-      break unless winner.nil?
-
-      c = 0 # column of array
-      p1 = 0
-      p2 = 0
-      until p1 == 4 || p2 == 4 || c == 8
-        case arr[c]
-        when 'x'
-          p1 += 1
-        when 'y'
-          p2 += 1
-        end
-        c += 1
-      end
-      if p1 == 4
-        @winner = 'x'
-      elsif p2 == 4
-        @winner = 'x'
-      end
-    end
-    @winner
+  def horizontal_check(row, col, symbol)
+    # grid[0][0] = 'x'
+    # grid[0][1] = 'x'
+    # grid[0][2] = 'x'
+    # grid[0][3] = 'x'
+    @grid[row][col] == symbol && @grid[row][col + 1] == symbol && @grid[row][col + 2] == symbol && @grid[row][col + 3] == symbol
   end
+
+  #   def horizontal_check
+  #     @grid.each do |arr|
+  #       break unless winner.nil?
+  #
+  #       c = 0 # column of array
+  #       p1 = 0
+  #       p2 = 0
+  #       until p1 == 4 || p2 == 4 || c == 8
+  #         case arr[c]
+  #         when 'x'
+  #           p1 += 1
+  #         when 'y'
+  #           p2 += 1
+  #         end
+  #         c += 1
+  #       end
+  #       if p1 == 4
+  #         @winner = 'x'
+  #       elsif p2 == 4
+  #         @winner = 'x'
+  #       end
+  #     end
+  #     @winner
+  #   end
 
   def vertical_check
     # grid[2][0] = 'x'
@@ -85,8 +93,8 @@ class Board
       r = 0
     end
   end
-  def grid_check(player, r, c)
-    
+  # def grid_check(player, r, c)
+
   def diag_r(player, r, c, count = 0)
     return if count > 3
 
@@ -105,10 +113,6 @@ class Board
     false
   end
 end
-
-# board = Board.new
-
-# board.diag_r('x', 2, 2)
 
 class User
   attr_reader :name, :symbol
@@ -140,3 +144,6 @@ end
 # game = Game.new
 
 # game.win_vertical?
+# board = Board.new
+
+# p board.h_check(0, 0, 'x')
