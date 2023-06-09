@@ -131,8 +131,34 @@ describe Board do
     describe '#board_full?' do
       subject(:board) { described_class.new }
 
-      it 'returns false if the board is not full' do
-        expect(board.board_full?).to be false
+      it 'returns nil if the board is not full' do
+        expect(board.board_full?).to be nil
+      end
+    end
+  end
+
+  context 'When checking a player selection' do
+    describe '#row_check' do
+      subject(:board) { described_class.new }
+      let(:grid) { board.instance_variable_get(:@grid) }
+
+      it 'returns the row from the selected column' do
+        expect(board.row_check(0, 'x')).to eq(5)
+      end
+
+      it 'returns the row with previous selections' do
+        grid[1][0] = 'x'
+        grid[2][0] = 'x'
+        grid[3][0] = 'x'
+        grid[4][0] = 'x'
+        grid[5][0] = 'x'
+        expect(board.row_check(0, 'x')).to eq(0)
+      end
+    end
+    describe '#column_full?' do
+      subject(:board) { described_class.new }
+      it 'returns nil if the column is not full' do
+        expect(board.column_full?(0)).to be_nil
       end
     end
   end
@@ -140,12 +166,24 @@ end
 
 describe Game do
   context 'When checking if the game is over' do
+    subject(:game) { described_class.new }
+    # let(:board) { game.instance_variable_get(:@board) }
+    # let(:player) { instance_double(User, name: 'Player One', symbol: 'x') }
+    # let(:board) { double(Board, connect_four: true) }
+
     describe '#game_over?' do
-      subject(:game) { described_class.new }
-      let(:board) { instance_variable_get(:@board) }
-      let(:player) { instance_double(User, player1: 'Player One', symbol: 'x') }
       xit 'returns false if the board is not full of selections' do
         expect(game.game_over?).not_to eq true
+      end
+    end
+    describe '#winner' do
+      xit 'returns nil is a winning move is not played' do
+        expect(game.winner).to be nil
+      end
+
+      xit 'returns the winner if the player connected four' do
+        expect(Board).to receive(:connect_four).and_return(true)
+        game.winner
       end
     end
   end

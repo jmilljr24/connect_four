@@ -27,6 +27,24 @@ class Board
     puts (1..7).to_a.join(' ')
   end
 
+  # column is selected by user
+  def row_check(column, symbol)
+    row = 5
+
+    row -= 1 while @grid[row][column] != empty_circle
+    @grid[row][column] = symbol
+    row
+  end
+
+  def column_full?(column)
+    return true if @grid[0][column] != empty_circle
+  end
+  
+
+  def board_full?
+    return true unless @grid[0].include?(empty_circle)
+  end
+
   def horizontal_check(row, col, symbol)
     @grid[row][col] == symbol && @grid[row][col + 1] == symbol && @grid[row][col + 2] == symbol && @grid[row][col + 3] == symbol
   end
@@ -48,12 +66,6 @@ class Board
                      symbol) || vertical_check(row, col,
                                                symbol) || diagonal_right(row, col,
                                                                          symbol) || diagonal_left(row, col, symbol)
-  end
-
-  def board_full?
-    return true unless @grid[0].include?(empty_circle)
-
-    false
   end
 end
 
@@ -83,9 +95,14 @@ class Game
     # until game_over?
   end
 
+  def winner
+    return unless @board.connect_four(0, 0, 'x') == true
+
+    @winner = @current_player.name
+  end
+
   def game_over?
-    return true unless @winner.nil?
-    return true unless @grid[0].include?(empty_circle)
+    # return true unless @winner.nil?
 
     false
   end
@@ -94,6 +111,6 @@ end
 # game = Game.new
 
 # game.win_vertical?
-# board = Board.new
+board = Board.new
 
-# p board.check_four
+board.row_check(0, 'x')
