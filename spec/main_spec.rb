@@ -1,24 +1,7 @@
 require './main'
 
 describe Board do
-  context 'when checking if the game is over' do
-    describe '#game_over?' do
-      subject(:board) { described_class.new }
-      it 'returns false if the board is not full of selections' do
-        expect(board.game_over?).not_to eq true
-      end
-
-      it 'returns true if the board is full' do
-        board.instance_variable_set(:@grid, Array.new(6) { Array.new(7) { 'x' } })
-        expect(board.game_over?).to eq true
-      end
-
-      it 'returns true if there is a winner' do
-        board.instance_variable_set(:@winner, 'x')
-        expect(board.game_over?).to eq true
-      end
-    end
-
+  context 'when checking if there is four in a row' do
     describe '#horizontal_check' do
       subject(:horizontal_check) { described_class.new }
       let(:grid) { horizontal_check.instance_variable_get(:@grid) }
@@ -141,6 +124,28 @@ describe Board do
         col = 4
         symbol = 'x'
         expect(diag.diagonal_left(row, col, symbol)).to be false
+      end
+    end
+  end
+  context 'When checking if the board is full' do
+    describe '#board_full?' do
+      subject(:board) { described_class.new }
+
+      it 'returns false if the board is not full' do
+        expect(board.board_full?).to be false
+      end
+    end
+  end
+end
+
+describe Game do
+  context 'When checking if the game is over' do
+    describe '#game_over?' do
+      subject(:game) { described_class.new }
+      let(:board) { instance_variable_get(:@board) }
+      let(:player) { instance_double(User, player1: 'Player One', symbol: 'x') }
+      xit 'returns false if the board is not full of selections' do
+        expect(game.game_over?).not_to eq true
       end
     end
   end

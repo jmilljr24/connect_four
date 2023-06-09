@@ -15,7 +15,6 @@ end
 class Board
   include Miscellaneous
   attr_accessor :grid
-  attr_reader :winner
 
   def initialize
     @grid = Array.new(6) { Array.new(7) { empty_circle } }
@@ -51,8 +50,7 @@ class Board
                                                                          symbol) || diagonal_left(row, col, symbol)
   end
 
-  def game_over?
-    return true unless @winner.nil?
+  def board_full?
     return true unless @grid[0].include?(empty_circle)
 
     false
@@ -84,11 +82,18 @@ class Game
   def play
     # until game_over?
   end
+
+  def game_over?
+    return true unless @winner.nil?
+    return true unless @grid[0].include?(empty_circle)
+
+    false
+  end
 end
 
 # game = Game.new
 
 # game.win_vertical?
-board = Board.new
+# board = Board.new
 
-p board.check_four
+# p board.check_four
