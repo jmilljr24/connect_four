@@ -48,93 +48,100 @@ describe Board do
       subject(:vertical_check) { described_class.new }
       let(:grid) { vertical_check.instance_variable_get(:@grid) }
 
-      it 'returns the winner if four in the first column' do
+      before do
         grid[0][0] = 'x'
         grid[1][0] = 'x'
         grid[2][0] = 'x'
         grid[3][0] = 'x'
-        expect(vertical_check.vertical_check).to eq('x')
+      end
+      it 'returns the winner if four in the first column' do
+        row = 0
+        col = 0
+        symbol = 'x'
+        expect(vertical_check.vertical_check(row, col, symbol)).to be true
       end
 
-      it 'returns the winner if four in the second column' do
-        grid[0][1] = 'x'
-        grid[1][1] = 'x'
-        grid[2][1] = 'x'
-        grid[3][1] = 'x'
-        expect(vertical_check.vertical_check).to eq('x')
-      end
-
-      it 'returns the winner if four in the first column with last row' do
-        grid[2][0] = 'x'
-        grid[3][0] = 'x'
-        grid[4][0] = 'x'
-        grid[5][0] = 'x'
-        expect(vertical_check.vertical_check).to eq('x')
-      end
       it 'returns the winner if four in the last column with last row' do
-        grid[2][0] = 'x'
-        grid[3][0] = 'x'
-        grid[4][0] = 'x'
-        grid[5][0] = 'x'
-        expect(vertical_check.vertical_check).to eq('x')
+        grid[2][6] = 'x'
+        grid[3][6] = 'x'
+        grid[4][6] = 'x'
+        grid[5][6] = 'x'
+        row = 2
+        col = 6
+        symbol = 'x'
+        expect(vertical_check.vertical_check(row, col, symbol)).to be true
+      end
+
+      it 'returns false if there is not four in a row' do
+        grid[2][0] = 'y'
+        row = 0
+        col = 0
+        symbol = 'x'
+        expect(vertical_check.vertical_check(row, col, symbol)).to be false
       end
     end
 
     describe '#diagonal_right' do
-      subject(:diag_right) { described_class.new }
-      let(:grid) { diag_right.instance_variable_get(:@grid) }
+      subject(:diag) { described_class.new }
+      let(:grid) { diag.instance_variable_get(:@grid) }
 
-      xit 'returns the winner if four in a row diagonal down right' do
+      it 'returns the winner if four in a row diagonal down right' do
         grid[0][0] = 'x'
         grid[1][1] = 'x'
         grid[2][2] = 'x'
         grid[3][3] = 'x'
-        expect(diag_right.diagonal_right).to eq('x')
+        row = 0
+        col = 0
+        symbol = 'x'
+        expect(diag.diagonal_right(row, col, symbol)).to be true
       end
 
-      xit 'returns the winner if four in a row diagonal down right in middle of board' do
+      it 'returns the winner if four in a row diagonal down right in middle of board' do
         grid[2][2] = 'x'
         grid[3][3] = 'x'
         grid[4][4] = 'x'
         grid[5][5] = 'x'
-        expect(diag_right.diagonal_right).to eq('x')
+        row = 2
+        col = 2
+        symbol = 'x'
+        expect(diag.diagonal_right(row, col, symbol)).to be true
       end
-    end
 
-    describe 'diag_r' do
-      subject(:diag_r) { described_class.new }
-      let(:count) { diag_r.instance_variable_get(:count) }
-      let(:grid) { diag_r.instance_variable_get(:@grid) }
-
-      it 'returns if count is greater than 3' do
-        player = 'x'
-        r = 0
-        c = 0
-        count = 4
-        expect(diag_r.diag_r(player, r, c, count)).to be_nil
-      end
-      it 'returns winner if four in a row' do
+      it 'returns the false if there is not four in a row' do
         grid[2][2] = 'x'
         grid[3][3] = 'x'
-        grid[4][4] = 'x'
+        grid[4][4] = 'y'
         grid[5][5] = 'x'
-        player = 'x'
-        r = 2
-        c = 2
-        player = 'x'
-        r = 2
-        c = 2
-        expect(diag_r.diag_r(player, r, c)).to eq('x')
+        row = 2
+        col = 2
+        symbol = 'x'
+        expect(diag.diagonal_right(row, col, symbol)).to be false
       end
-      it 'returns nil if only three in a row' do
-        grid[2][2] = 'x'
-        grid[3][3] = 'x'
-        grid[4][4] = 'x'
-        grid[5][5] = 'y'
-        player = 'x'
-        r = 2
-        c = 2
-        expect(diag_r.diag_r(player, r, c)).to be_nil
+
+      describe '#diagonal_left' do
+        subject(:diag) { described_class.new }
+        let(:grid) { diag.instance_variable_get(:@grid) }
+
+        before do
+          grid[0][4] = 'x'
+          grid[1][3] = 'x'
+          grid[2][2] = 'x'
+          grid[3][1] = 'x'
+        end
+        it ' returns the true if your in a row diagonal right' do
+          row = 0
+          col = 4
+          symbol = 'x'
+          expect(diag.diagonal_left(row, col, symbol)).to be true
+        end
+
+        it ' returns the true if your in a row diagonal right' do
+          grid[2][2] = 'y'
+          row = 0
+          col = 4
+          symbol = 'x'
+          expect(diag.diagonal_left(row, col, symbol)).to be false
+        end
       end
     end
   end

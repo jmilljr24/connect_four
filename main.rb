@@ -29,81 +29,19 @@ class Board
   end
 
   def horizontal_check(row, col, symbol)
-    # grid[0][0] = 'x'
-    # grid[0][1] = 'x'
-    # grid[0][2] = 'x'
-    # grid[0][3] = 'x'
     @grid[row][col] == symbol && @grid[row][col + 1] == symbol && @grid[row][col + 2] == symbol && @grid[row][col + 3] == symbol
   end
 
-  #   def horizontal_check
-  #     @grid.each do |arr|
-  #       break unless winner.nil?
-  #
-  #       c = 0 # column of array
-  #       p1 = 0
-  #       p2 = 0
-  #       until p1 == 4 || p2 == 4 || c == 8
-  #         case arr[c]
-  #         when 'x'
-  #           p1 += 1
-  #         when 'y'
-  #           p2 += 1
-  #         end
-  #         c += 1
-  #       end
-  #       if p1 == 4
-  #         @winner = 'x'
-  #       elsif p2 == 4
-  #         @winner = 'x'
-  #       end
-  #     end
-  #     @winner
-  #   end
-
-  def vertical_check
-    # grid[2][0] = 'x'
-    # grid[3][0] = 'x'
-    # grid[4][0] = 'x'
-    # grid[5][0] = 'x'
-
-    r = 0
-    c = 0
-    count = 0
-
-    7.times do
-      current = @grid[r][c]
-      6.times do
-        current = @grid[r][c]
-        if current == empty_circle
-          r += 1
-        elsif current == @grid[r + 1] [c]
-          r += 1
-          count += 1
-          return @winner = current if count == 3
-        else
-          count = 0
-          current = @grid[r][c]
-          r += 1
-        end
-      end
-      return unless @winner.nil?
-
-      c += 1
-      r = 0
-    end
+  def vertical_check(row, col, symbol)
+    @grid[row][col] == symbol && @grid[row + 1][col] == symbol && @grid[row + 2][col] == symbol && @grid[row + 3][col] == symbol
   end
-  # def grid_check(player, r, c)
 
-  def diag_r(player, r, c, count = 0)
-    return if count > 3
+  def diagonal_right(row, col, symbol)
+    @grid[row][col] == symbol && @grid[row + 1][col + 1] == symbol && @grid[row + 2][col + 2] == symbol && @grid[row + 3][col + 3] == symbol
+  end
 
-    return unless grid[r + 1][c + 1] == player
-
-    count += 1
-    return @winner = player if count == 3
-
-    diag_r(player, r + 1, c + 1, count)
+  def diagonal_left(row, col, symbol)
+    @grid[row][col] == symbol && @grid[row + 1][col - 1] == symbol && @grid[row + 2][col - 2] == symbol && @grid[row + 3][col - 3] == symbol
   end
 
   def game_over?
