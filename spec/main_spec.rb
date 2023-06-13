@@ -130,9 +130,19 @@ describe Board do
   context 'When checking if the board is full' do
     describe '#board_full?' do
       subject(:board) { described_class.new }
-
+      let(:grid) { board.instance_variable_get(:@grid) }
       it 'returns nil if the board is not full' do
-        expect(board.board_full?).to be nil
+        expect(board.board_full?).to be false
+      end
+      it 'returns true if the board is full' do
+        grid[0][0] = 'x'
+        grid[0][1] = 'x'
+        grid[0][2] = 'y'
+        grid[0][3] = 'x'
+        grid[0][4] = 'y'
+        grid[0][5] = 'x'
+        grid[0][6] = 'x'
+        expect(board.board_full?).to be true
       end
     end
   end
@@ -142,11 +152,11 @@ describe Board do
       subject(:board) { described_class.new }
       let(:grid) { board.instance_variable_get(:@grid) }
 
-      it 'returns the row from the selected column' do
+      it 'returns the symbol from the selected column' do
         expect(board.row_set(0, 'x')).to eq('x')
       end
 
-      it 'returns the row with previous selections' do
+      it 'returns the symbol that was placed on top of previous selections' do
         grid[1][0] = 'x'
         grid[2][0] = 'x'
         grid[3][0] = 'x'
@@ -159,7 +169,7 @@ describe Board do
       subject(:board) { described_class.new }
       let(:grid) { board.instance_variable_get(:@grid) }
       it 'returns nil if the column is not full' do
-        expect(board.column_full?(0)).to be_nil
+        expect(board.column_full?(0)).to be false
       end
       it 'returns true if the column is full' do
         grid[0][3] = 'y'
@@ -171,6 +181,30 @@ describe Board do
 end
 
 describe Game do
+  context 'When a player makes a selection' do
+    describe '#verify_input' do
+      subject(:game) { described_class.new }
+      let(:board) { game.instance_variable_get(:@board) }
+      # before do
+      # allow(board).to receive(:column_full?).and_return(nil)
+      # end
+      it 'returns true if selection is between 0-6' do
+        input = game.verify_input(1)
+        expect(input).to be true
+      end
+
+      it 'returns false if the input is less than 0' do
+        input = game.verify_input(-1)
+        expect(input).to be false
+      end
+
+      it 'returns false if the input ins greater than 6' do
+        input = game.verify_input(7)
+        expect(input).to be false
+      end
+    end
+  end
+
   context 'When checking if the game is over' do
     subject(:game) { described_class.new }
     # let(:board) { game.instance_variable_get(:@board) }

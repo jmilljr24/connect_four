@@ -28,7 +28,15 @@ class Board
   end
 
   def column_full?(column)
-    return true if @grid[0][column] != empty_circle
+    # return true if
+    @grid[0][column] != empty_circle
+  end
+
+  def board_check(row, col, symbol)
+    horizontal_check(row, col,
+                     symbol) || vertical_check(row, col,
+                                               symbol) || diagonal_right(row, col,
+                                                                         symbol) || diagonal_left(row, col, symbol)
   end
 
   # column is selected by user
@@ -37,7 +45,6 @@ class Board
 
     row -= 1 while @grid[row][column] != empty_circle
     @grid[row][column] = symbol
-    # row
   end
 
   def horizontal_check(row, col, symbol)
@@ -64,7 +71,7 @@ class Board
   end
 
   def board_full?
-    return true unless @grid[0].include?(empty_circle)
+    !@grid[0].include?(empty_circle)
   end
 end
 
@@ -88,6 +95,10 @@ class Game
     @player1 = User.new('Player One', 'Red')
     @player2 = User.new('Player Two', 'Black')
     @current_player = nil
+  end
+
+  def verify_input(column)
+    column.between?(0, 6) && !@board.column_full?(column)
   end
 
   def play
