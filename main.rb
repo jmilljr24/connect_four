@@ -92,8 +92,8 @@ class Game
 
   def initialize
     @board = Board.new
-    @player1 = User.new('Player One', 'Red')
-    @player2 = User.new('Player Two', 'Black')
+    @player1 = User.new('Player One', yellow_circle)
+    @player2 = User.new('Player Two', blue_circle)
     @current_player = nil
   end
 
