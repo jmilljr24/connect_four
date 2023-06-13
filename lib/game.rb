@@ -57,6 +57,3 @@ class Game
     true
   end
 end
-
-game = Game.new
-game.play
