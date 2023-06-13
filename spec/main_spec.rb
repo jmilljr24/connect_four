@@ -157,8 +157,14 @@ describe Board do
     end
     describe '#column_full?' do
       subject(:board) { described_class.new }
+      let(:grid) { board.instance_variable_get(:@grid) }
       it 'returns nil if the column is not full' do
         expect(board.column_full?(0)).to be_nil
+      end
+      it 'returns true if the column is full' do
+        grid[0][3] = 'y'
+
+        expect(board.column_full?(3)).to be true
       end
     end
   end
