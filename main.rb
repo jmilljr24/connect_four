@@ -27,22 +27,17 @@ class Board
     puts (1..7).to_a.join(' ')
   end
 
+  def column_full?(column)
+    return true if @grid[0][column] != empty_circle
+  end
+
   # column is selected by user
-  def row_check(column, symbol)
+  def row_set(column, symbol)
     row = 5
 
     row -= 1 while @grid[row][column] != empty_circle
     @grid[row][column] = symbol
-    row
-  end
-
-  def column_full?(column)
-    return true if @grid[0][column] != empty_circle
-  end
-  
-
-  def board_full?
-    return true unless @grid[0].include?(empty_circle)
+    # row
   end
 
   def horizontal_check(row, col, symbol)
@@ -66,6 +61,10 @@ class Board
                      symbol) || vertical_check(row, col,
                                                symbol) || diagonal_right(row, col,
                                                                          symbol) || diagonal_left(row, col, symbol)
+  end
+
+  def board_full?
+    return true unless @grid[0].include?(empty_circle)
   end
 end
 
@@ -111,6 +110,6 @@ end
 # game = Game.new
 
 # game.win_vertical?
-board = Board.new
+# board = Board.new
 
-board.row_check(0, 'x')
+# board.row_check(0, 'x')

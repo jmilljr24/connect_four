@@ -138,12 +138,12 @@ describe Board do
   end
 
   context 'When checking a player selection' do
-    describe '#row_check' do
+    describe '#row_set' do
       subject(:board) { described_class.new }
       let(:grid) { board.instance_variable_get(:@grid) }
 
       it 'returns the row from the selected column' do
-        expect(board.row_check(0, 'x')).to eq(5)
+        expect(board.row_set(0, 'x')).to eq('x')
       end
 
       it 'returns the row with previous selections' do
@@ -152,7 +152,7 @@ describe Board do
         grid[3][0] = 'x'
         grid[4][0] = 'x'
         grid[5][0] = 'x'
-        expect(board.row_check(0, 'x')).to eq(0)
+        expect(board.row_set(0, 'x')).to eq('x')
       end
     end
     describe '#column_full?' do
