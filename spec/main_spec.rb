@@ -1,4 +1,5 @@
-require './main'
+require './lib/game'
+require './lib/board'
 
 describe Board do
   context 'when checking if there is four in a row' do
@@ -209,7 +210,6 @@ describe Game do
     subject(:game) { described_class.new }
     let(:board) { game.instance_variable_get(:@board) }
     let(:player) { instance_double(User, name: 'Player One', symbol: 'x') }
-    # let(:connect) { instance_double(Board) }
 
     describe '#game_over?' do
       it 'returns false if the board is not full of selections' do
