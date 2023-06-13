@@ -207,23 +207,18 @@ describe Game do
 
   context 'When checking if the game is over' do
     subject(:game) { described_class.new }
-    # let(:board) { game.instance_variable_get(:@board) }
-    # let(:player) { instance_double(User, name: 'Player One', symbol: 'x') }
-    # let(:board) { double(Board, connect_four: true) }
+    let(:board) { game.instance_variable_get(:@board) }
+    let(:player) { instance_double(User, name: 'Player One', symbol: 'x') }
+    # let(:connect) { instance_double(Board) }
 
     describe '#game_over?' do
-      xit 'returns false if the board is not full of selections' do
-        expect(game.game_over?).not_to eq true
-      end
-    end
-    describe '#winner' do
-      xit 'returns nil is a winning move is not played' do
-        expect(game.winner).to be nil
+      it 'returns false if the board is not full of selections' do
+        expect(game.game_over?(player)).to be false
       end
 
-      xit 'returns the winner if the player connected four' do
-        expect(Board).to receive(:connect_four).and_return(true)
-        game.winner
+      it 'returns true if connect 4' do
+        allow(board).to receive(:connect_four).with(0, 0, 'x').and_return(true)
+        expect(game.game_over?(player)).to eq true
       end
     end
   end

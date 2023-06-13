@@ -28,15 +28,7 @@ class Board
   end
 
   def column_full?(column)
-    # return true if
     @grid[0][column] != empty_circle
-  end
-
-  def board_check(row, col, symbol)
-    horizontal_check(row, col,
-                     symbol) || vertical_check(row, col,
-                                               symbol) || diagonal_right(row, col,
-                                                                         symbol) || diagonal_left(row, col, symbol)
   end
 
   # column is selected by user
@@ -48,18 +40,28 @@ class Board
   end
 
   def horizontal_check(row, col, symbol)
+    return if col > 3
+
     @grid[row][col] == symbol && @grid[row][col + 1] == symbol && @grid[row][col + 2] == symbol && @grid[row][col + 3] == symbol
   end
 
   def vertical_check(row, col, symbol)
+    return if row > 2
+
     @grid[row][col] == symbol && @grid[row + 1][col] == symbol && @grid[row + 2][col] == symbol && @grid[row + 3][col] == symbol
   end
 
   def diagonal_right(row, col, symbol)
+    return unless row < 3
+    return if col > 3
+
     @grid[row][col] == symbol && @grid[row + 1][col + 1] == symbol && @grid[row + 2][col + 2] == symbol && @grid[row + 3][col + 3] == symbol
   end
 
   def diagonal_left(row, col, symbol)
+    return unless row < 3
+    return if col < 3
+
     @grid[row][col] == symbol && @grid[row + 1][col - 1] == symbol && @grid[row + 2][col - 2] == symbol && @grid[row + 3][col - 3] == symbol
   end
 
@@ -77,12 +79,10 @@ end
 
 class User
   attr_reader :name, :symbol
-  attr_accessor :selections
 
   def initialize(name, symbol)
     @name = name
     @symbol = symbol
-    @selections = []
   end
 end
 
@@ -94,33 +94,54 @@ class Game
     @board = Board.new
     @player1 = User.new('Player One', yellow_circle)
     @player2 = User.new('Player Two', blue_circle)
-    @current_player = nil
   end
 
   def verify_input(column)
     column.between?(0, 6) && !@board.column_full?(column)
   end
 
+  def user_input(current_player)
+    loop do
+      puts "#{current_player.name}'s turn"
+      column = gets.chomp.to_i - 1
+      return column if verify_input(column)
+
+      puts 'Invalid input'
+    end
+  end
+
   def play
-    # until game_over?
+    @board.display_board
+    current_player = @player1
+    loop do
+      @board.row_set(user_input(current_player), current_player.symbol)
+      @board.display_board
+      break if game_over?(current_player) || draw?
+
+      current_player = current_player == @player1 ? @player2 : @player1
+    end
   end
 
-  def winner
-    return unless @board.connect_four(0, 0, 'x') == true
-
-    @winner = @current_player.name
-  end
-
-  def game_over?
-    # return true unless @winner.nil?
-
+  def game_over?(current_player)
+    6.times do |row|
+      7.times do |column|
+        if @board.connect_four(row, column, current_player.symbol)
+          puts "#{current_player.name} is the winner!"
+          return true
+        end
+      end
+    end
     false
+  end
+
+  def draw?
+    return unless @board.board_full?
+
+    puts "It's a draw!"
+    true
   end
 end
 
 # game = Game.new
 
-# game.win_vertical?
-# board = Board.new
-
-# board.row_check(0, 'x')
+# game.play
